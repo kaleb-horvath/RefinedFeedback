@@ -1,18 +1,3 @@
-
-"""
-NOTE: In parent routine, ensure get_all_input() does not return []
-NOTE: In parent routine, ensure re.finditer does not receive illegal regular expressions.
-	happens on sre_constants.error
-NOTE: hello.*world*.4 is actually one literal sequence pattern, just allowing for
-	  anything inbetween
-NOTE: reduce redundant indexing and searching
-NOTE: cut down on codeblocks into generators and comprehensions
-NOTE: microoptimizations???
-NOTE: REDUCTION FOCUS
-
-Welcome.*options.*name.*max.*remaining.*lives.*options.*name.*max.*remaining.*options.*name.*max.*remaining.*coins.*options.*Displaying 3.*Enemy Boss.*Bowser.*123.5.*150.0.*82.3.*3.*Enemy.*Goomba.*7.9.*10.0.*78.9.*Human.*Mario.*100.0.*100.0.*100.0.*15.*options.*bye
-"""
-
 #IMPLEMENTATION ISSUES (PRIORITY)
 [ ]. Patterns are matched strictly by line. i.e., if you pass only one
 literal with 'anything goes' ('.*') delimiters, it will fail
@@ -43,6 +28,8 @@ with '|'.
 	future 'RegEx' patterns you wish to extend the program with will require manual implementation. I implemented a different model in my Python code. The RegEx stdlib gives you plenty of default insight into this matching process if you express your pattern as a '|' seperared sequence of literals. Here they are parsed as seperate patterns to be matched. In fact, every literal is represented as an object with lots of needed information. This model has an additional benefit in that the matching process will not terminate on the first unfound literal. This is especially useful when we are trying to present refined feedback. 
 
 	However, the idea of sequence is lost as '|' is the RegEx 'or' operator and instead of looking for the occurence of one pattern 'hello*.world 4', we are only looking for the occurence of both 'hello' and 'world 4' ('hello|world 4') meaning if 'world 4' is found before 'hello' we still have 2 valid literal matches, thus satisfying the entire pattern INCORRECTLY as you pointed out. I believe using stdlib's 'finditer' with the RegEx 'or' operator to seperate literals presents enough benefits (default insight into the intermediate steps of the matching process, no early termination) to where my having to manually implement some element of order into the parser is a negligible use of time in the big picture.
+
+	Welcome.*options.*name.*max.*remaining.*lives.*options.*name.*max.*remaining.*options.*name.*max.*remaining.*coins.*options.*Displaying 3.*Enemy Boss.*Bowser.*123.5.*150.0.*82.3.*3.*Enemy.*Goomba.*7.9.*10.0.*78.9.*Human.*Mario.*100.0.*100.0.*100.0.*15.*options.*bye
 
 
 [X]. There is no element of sequence. That is, order does not matter in the patterns to be checked.
