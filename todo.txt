@@ -1,0 +1,63 @@
+
+"""
+NOTE: In parent routine, ensure get_all_input() does not return []
+NOTE: In parent routine, ensure re.finditer does not receive illegal regular expressions.
+	happens on sre_constants.error
+NOTE: hello.*world*.4 is actually one literal sequence pattern, just allowing for
+	  anything inbetween
+NOTE: reduce redundant indexing and searching
+NOTE: cut down on codeblocks into generators and comprehensions
+NOTE: microoptimizations???
+NOTE: REDUCTION FOCUS
+
+Welcome.*options.*name.*max.*remaining.*lives.*options.*name.*max.*remaining.*options.*name.*max.*remaining.*coins.*options.*Displaying 3.*Enemy Boss.*Bowser.*123.5.*150.0.*82.3.*3.*Enemy.*Goomba.*7.9.*10.0.*78.9.*Human.*Mario.*100.0.*100.0.*100.0.*15.*options.*bye
+"""
+
+#IMPLEMENTATION ISSUES (PRIORITY)
+[ ]. Patterns are matched strictly by line. i.e., if you pass only one
+literal with 'anything goes' ('.*') delimiters, it will fail
+unless there is one line that matches that pattern.
+
+	we want 'hello.*world 4' to work with the following input:
+		hello\n
+		world 4
+	however it only works if the entire literal is found on one line, like:
+		hello world 4\n
+
+	Solutions?
+		* concatinate all lines from stdin into one string
+		* use a different matching function from 're' module, would require huge re-write
+		* setup two cases:
+			- there is one literal, here we assume we want to check pattern for all lines
+			- there are multiple literals, here we assume we want to check each literal's
+			  possible presence on one isolated line
+
+[ ]. You cannot seperately search for or interpret patterns unless they are seperated
+with '|'. 
+
+	If you pass my program 'hello*.world 4', the program will not allow you to 'FOUND' 'hello' but 'NOT FOUND' 'world 4'. It either finds this one pattern or it doesn't. This occurs because in RegEx, the pattern 'hello*.world 4' is one literal to be matched. To search for 'hello' and 'world 4' as seperate literals while using the stdlib RegEx engine, you would have to use the seperator '|'. You side stepped this issue by not using RegEx, and parsing it yourself as to allow
+	insight into the intermediate steps of the matching process, thus allowing the program
+	to present exactly what was found and where it was found, as well as what was not found.
+
+	This works great for a very restricted scope of test cases, at a cost to scalability. Any 
+	future 'RegEx' patterns you wish to extend the program with will require manual implementation. I implemented a different model in my Python code. The RegEx stdlib gives you plenty of default insight into this matching process if you express your pattern as a '|' seperared sequence of literals. Here they are parsed as seperate patterns to be matched. In fact, every literal is represented as an object with lots of needed information. This model has an additional benefit in that the matching process will not terminate on the first unfound literal. This is especially useful when we are trying to present refined feedback. 
+
+	However, the idea of sequence is lost as '|' is the RegEx 'or' operator and instead of looking for the occurence of one pattern 'hello*.world 4', we are only looking for the occurence of both 'hello' and 'world 4' ('hello|world 4') meaning if 'world 4' is found before 'hello' we still have 2 valid literal matches, thus satisfying the entire pattern INCORRECTLY as you pointed out. I believe using stdlib's 'finditer' with the RegEx 'or' operator to seperate literals presents enough benefits (default insight into the intermediate steps of the matching process, no early termination) to where my having to manually implement some element of order into the parser is a negligible use of time in the big picture.
+
+
+[X]. There is no element of sequence. That is, order does not matter in the patterns to be checked.
+
+	in Dr. Carroll's Project-4 he expects the following pattern to
+	be matched agains student output:
+		'Welcome.*options.*name.*max.*name.*lives'
+	where the string 'Welcome' is expected to appear before 'options',
+	and 'name' is expected to appear twice.
+
+	UPDATE: THIS IS NOT ACTUALLY A PROBLEM AND WORKS JUST FINE
+
+
+#FINAL
+1. merge regexParser/ directory with one on flash-drive
+2. implement devops solutions (unittesting, regression testing, dependency control?, CI)
+3. is there a need for some configuration file? or can we use command line flags instead?
+4. push code-base to VCS
