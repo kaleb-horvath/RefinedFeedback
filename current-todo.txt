@@ -45,6 +45,4 @@ with '|'.
 
 #FINAL
 1. merge regexParser/ directory with one on flash-drive
-2. implement devops solutions (unittesting, regression testing, dependency control?, CI)
-3. is there a need for some configuration file? or can we use command line flags instead?
-4. push code-base to VCS
+2. implement CI and testing
