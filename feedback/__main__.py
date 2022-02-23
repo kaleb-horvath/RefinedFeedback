@@ -21,52 +21,44 @@ def parse_args ():
 
 	return parser.parse_args()
 
-def get_input (n_lines):
+def get_input (args):
 	"""
 	Read-lines from stdin until EOF
 	"""
-	buffer = []
-	lines = 0
-	while True:
-		try:
-			if (lines != n_lines):
-				line = sys.stdin.readline()
-			
-				if line == '': raise EOFError
-				lines += 1
-				buffer.append(line)
-				continue
-			break
-
-		# terminate loop when end of file is reached
-		except EOFError: break	
-
-	return buffer
-
-
-def get_student_output (args):
 	n_lines = int(args.lines)
 	ignore_stdin = args.ignore_stdin
+	lines = list()
 
-	# obtain student's output from stdin or variable
-	try:
-		if not ignore_stdin:
-			lines = get_input(n_lines)
-			lines = [
-				l.replace('\n', '\u00B6') for l in lines
-			]
-		else:
-			lines = student_output
-	except IOError:
-		rrf.__error("Problem reading from \'stdin\'", exit=1)
+	if not ignore_stdin:
+		lines_read = 0
 
+		# loop read from stdin until EOF encountered
+		while True:
+			try:
+				if (lines_read != n_lines):
+					line = sys.stdin.readline()
+
+					if line == '': raise EOFError
+					lines_read += 1
+					lines.append(line)
+					continue
+				break
+			except EOFError: break 
+			except IOError:
+				rrf.__error('Problem reading from \'stdin\'', exit=1)
+	else:
+		lines = student_output.split('\n')
+	lines = [
+		l.replace('\n', '\u00B6') for l in lines
+	]
+	
 	return lines
 
 
 def main (args):
 	regex = str(args.regex)
 	debug = args.debug
-	student_output = get_student_output(args)
+	student_output = get_input(args)
 
 	if not debug: rrf.SHOW_DEBUG = False
 

@@ -55,7 +55,10 @@ def get_matches (lines, regex):
 			word = match_object.group(0)
 			substring_location = (start, end)
 
-			match = (__associate_regex(word, regex),
+			associated_regex = __associate_regex(word, regex)
+			# __debug('associated_regex %s' % associated_regex)
+
+			match = (associated_regex,
 				word,
 				substring_location,
 				line)
