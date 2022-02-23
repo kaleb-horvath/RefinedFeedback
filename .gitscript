@@ -5,13 +5,6 @@
 #	2. authenticated using 'gh auth login'
 #	   (must install Git CLI tools)
 #	3. cached access token in .bashrc as 'PAT'
-if [$1 -eq 'update']
-then
-	printf '\nDownloading source tree from VCS'
-	git pull
-	exit
-fi
-
 git add .
 git commit -a -m "$1"
 git push
