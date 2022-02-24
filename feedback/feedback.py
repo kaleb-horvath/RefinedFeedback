@@ -1,3 +1,12 @@
+"""feedback.py
+
+This file defines core program functionality and should be imported
+as a module by __main__.py with the following functions being
+made available:
+
+	* get_matches - returns DS containing information about each matched literal 
+	* generate_match_report - yields detailed strings that report each match
+"""
 
 import sys, re
 import sre_constants
@@ -6,11 +15,15 @@ SHOW_DEBUG = True
 SHOW_ERROR = True
 
 def __debug (message):
+	"""Simple debugging function, for internal use only
+	"""
 	if SHOW_DEBUG: print('DEBUG ', message) 
 	return
 
 
 def __error (message, exit=0):
+	"""Error formatting function, for internal use only
+	"""
 	if SHOW_ERROR:
 		print('ERROR ', message)
 	if exit: sys.exit(1)
@@ -18,6 +31,34 @@ def __error (message, exit=0):
 
 
 def __associate_regex (word, regex):
+	"""Associate a regular expression with a literal that was
+	definitely found within student_output. Should be called by
+	'get_matches'. For internal use only.
+
+	Parameters
+	----------
+	word : str
+		the literal to be associated, should be 'm.group(0)' 
+		where 'm' is some 'sre.SRE_Match object' instance found
+		in the iterator returned by 're.finditer'
+	regex : str
+		the full regex pattern used by 'get_matches'
+
+	Returns
+	-------
+	association
+		the first sub-pattern in regex that would result
+		in a match with 'word'
+
+	Usage
+	-----
+	>>> __associate_regex('hello', 'he*.llo|world')
+	'he*.llo'
+
+	NOTE: Only works assuming literals to be matched are seperated
+	using the stdlib RegEx 'or' operator, '|' within the passed
+	regex string.
+	"""
 	association = ''
 	for pattern in regex.split('|'):
 		if '*.' in pattern:
@@ -35,6 +76,34 @@ def __associate_regex (word, regex):
 
 
 def get_matches (lines, regex):
+	"""Return a DS containing information about each matched literal. Still
+	returns DS on no-matches, will contain empty lists. Should be called
+	and passed to 'generate_match_report' as first and only argument. 
+	Programmer should ensure 'lines' is not empty before calling this function.
+	
+	Parameters
+	----------
+	lines : list
+		list of all lines read from stdin, should be result of 'utils.get_input'
+	regex : str
+		full regex pattern containing all literals to be matched
+
+	Returns
+	-------
+	match_data 
+		dictionary containing lists representing matches on each line,
+		further containing an n-tuple representing each match
+
+	Usage
+	-----
+	>>> from utils import *
+	>>> ...
+	>>> regex = 'hello*.world|this is not relevant'
+	>>> match_data = get_matches(get_input(args, 10), regex)
+
+	# this is what the dictionary will look like
+	{1: [(..), ..], 2: ..}
+	"""
 	match_data = {}
 	for index, line in enumerate(lines, start=1):
 
@@ -72,6 +141,30 @@ def get_matches (lines, regex):
 
 
 def generate_match_report (match_data):
+	"""yields detailed strings that report each match with such information
+	as line number, index, and the pattern that was matched. Essentially unpacks
+	'match_data' DS returned by 'get_matches' and string formats it accordingly.
+	Should be called by 'main' in __main__.py, and passed result of 'get_matches'.
+
+	Parameters
+	----------
+	match_data : dict
+		all matches found by 'finditer', built by 'get_matches' function
+
+	Returns
+	-------
+	generator
+		containing string representation of all literals matched
+		(done using 'yield' statement)
+
+	Usage
+	-----
+	>>> match_data = get_matches(student_output, regex)
+	>>>
+	>>> # show all matched pattern data
+	>>> for match in generate_match_report(match_data):
+		print(match)
+	"""
 
 	# calculate length of longest matched pattern for formatting purposes
 	pattern_lengths = []

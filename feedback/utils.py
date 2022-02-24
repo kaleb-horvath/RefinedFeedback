@@ -1,3 +1,11 @@
+"""utils.py
+
+This file holds interface functionality and should be
+imported as a module by __main__.py with the following functions:
+
+	* parse_args - returns positional and optional command line arguments
+	* get_input - read lines from 'stdin' until EOF is encountered
+"""
 
 import argparse
 import sys
@@ -5,6 +13,19 @@ import sys
 student_output = """"""
 
 def parse_args ():
+	"""Get and parse both positional and optional command 
+	line arguments using 'argparse' library. Should
+	be called and passed to 'main' in '__main__.py'.
+
+	Returns
+	-------
+	argparse.Namespace
+		object containing parsed command line arguments
+
+	Usage
+	-----
+	>>> parse_args()
+	"""
 	# required command line arguments, positionally dependent
 	parser = argparse.ArgumentParser(description="""Score student output against regex pattern""")
 	parser.add_argument('lines', help="number of lines to read from \'stdin\'")
@@ -18,11 +39,32 @@ def parse_args ():
 
 	return parser.parse_args()
 
-def get_input (args):
+def get_input (args, n_lines):
+	"""Readlines from program 'stdin' until EOF is encountered
+	or until no characters (including '\n') are encountered. This
+	implies EOF on most systems. Should be called and passed to
+	'get_matches' in 'feedback.py'.
+
+	Parameters
+	----------
+	args : argparse.Namespace
+		object containing parsed command line arguments
+	n_lines : int
+		number of lines to read from stdin
+
+	Returns
+	-------
+	lines
+		a list of strings representing lines from student's output
+
+	Usage
+	-----
+	>>> # read ten lines from 'stdin' or until EOF
+	>>> student_output = get_input(
+			parser.parse_args(),
+			10
+		) 
 	"""
-	Read-lines from stdin until EOF
-	"""
-	n_lines = int(args.lines)
 	ignore_stdin = args.ignore_stdin
 	lines = list()
 
