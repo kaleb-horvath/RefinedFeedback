@@ -10,7 +10,8 @@ assert its equality with the expected.
 
 OR
 
-import the 'get_input' method, write to our own 'stdin' and then check.
+import the 'get_input' method, write to our own 'stdin' and then check. will
+introduce blocking issues because method will never encounter EOF?
 """
 import unittest
 import os
