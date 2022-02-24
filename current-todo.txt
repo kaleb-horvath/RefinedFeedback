@@ -46,4 +46,4 @@ with '|'.
 #FINAL
 1. merge regexParser/ directory with one on flash-drive
 2. implement CI and testing
-3. setup Makefile and put program and library file in default path for easy global access
+3. setup Makefile and put program and library in default path for easy global access
