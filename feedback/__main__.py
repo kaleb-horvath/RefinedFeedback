@@ -1,12 +1,33 @@
+"""
+:Date: 2022-02-23
+:Version: 2
+:Authors: - https://github.com/kaleb-horvath
+:Purpose: This module allows 'feedback' directory to be passed to 'python3 <program name>'.
+
+
+"""
 
 from __future__ import print_function
 import feedback as rrf
 from utils import *
 
+def main (args, debug=False):
+	"""
+	Program entryt point, performs matching process of student
+	output (expected on stdin) against a regular expression
+	(expected as command line argument, see 'python3 feedback --help')
+	
+	:param args: command line arguments passed to this program
+	:param debug: show internal functionality as routines are executed
 
-def main (args):
+	:type debug: 'bool'
+	:type args: 'argparse.Namespace'
+
+	:Example:
+
+	>>> main(parse_args(), debug=True)
+	"""
 	regex = str(args.regex)
-	debug = args.debug
 	student_output = get_input(args)
 
 	if not debug: rrf.SHOW_DEBUG = False
@@ -48,5 +69,5 @@ def main (args):
 
 
 if __name__ == '__main__':
-	main(parse_args())
+	main(parse_args(),)
 

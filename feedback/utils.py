@@ -12,7 +12,6 @@ def parse_args ():
 	
 	# setup group of optional command line flags
 	group = parser.add_mutually_exclusive_group()
-	group.add_argument('-d', '--debug', action='store_true', help='enable debugger')
 	group.add_argument('-i', '--ignore-stdin',
 		action='store_true',
 		help='ignore program\'s \'stdin\' and read lines from memory (\'student_output\' variable)')

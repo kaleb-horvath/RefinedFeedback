@@ -1,4 +1,5 @@
 #IMPLEMENTATION ISSUES (PRIORITY)
+[ ]. Implement capability to read test cases from CSV file for ultra convenience in the future
 [ ]. Patterns are matched strictly by line. i.e., if you pass only one
 literal with 'anything goes' ('.*') delimiters, it will fail
 unless there is one line that matches that pattern.
