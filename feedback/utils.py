@@ -39,7 +39,7 @@ def parse_args ():
 
 	return parser.parse_args()
 
-def get_input (args, n_lines):
+def get_input (args, n_lines, test_mode=False):
 	"""Readlines from program 'stdin' until EOF is encountered
 	or until no characters (including '\n') are encountered. This
 	implies EOF on most systems. Should be called and passed to
@@ -51,6 +51,9 @@ def get_input (args, n_lines):
 		object containing parsed command line arguments
 	n_lines : int
 		number of lines to read from stdin
+	test_mode : bool
+		allows us to bypass use of argparse.Namespace,
+		saves memory and time when unittesting
 
 	Returns
 	-------
@@ -65,7 +68,11 @@ def get_input (args, n_lines):
 			10
 		) 
 	"""
-	ignore_stdin = args.ignore_stdin
+	if test_mode:
+		ignore_stdin = args
+	else:
+		ignore_stdin = args.ignore_stdin
+
 	lines = list()
 
 	if not ignore_stdin:
