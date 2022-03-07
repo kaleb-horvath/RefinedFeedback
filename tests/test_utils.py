@@ -63,7 +63,8 @@ class TestGetInput (unittest.TestCase):
 			lines = utils.get_input(False, most_lines, test_mode=True)
 
 			print(case, lines)
-			continue
+
+			
 
 if __name__ == '__main__':
 	unittest.main()
