@@ -46,3 +46,4 @@ with '|'.
 #FINAL
 2. implement CI and testing
 3. setup Makefile and put program and library in default path for easy global access
+4. create public release
