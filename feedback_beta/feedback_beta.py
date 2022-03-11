@@ -1,27 +1,11 @@
 
-import sys
+import sys, re
+import sre_constants
+
+"""
+"""
 
 def get_input (n_lines):
-	"""Readlines from program 'stdin' until EOF is encountered
-	or until no characters (including '\n') are encountered. This
-	implies EOF on most systems. Should be called and passed to
-	'get_matches' in 'feedback.py'.
-
-	Parameters
-	----------
-	n_lines : int
-		number of lines to read from stdin
-
-	Returns
-	-------
-	student_output
-		string representing lines from student's output
-
-	Usage
-	-----
-	>>> # read ten lines from 'stdin' or until EOF
-	>>> student_output = get_input(10) 
-	"""
 	lines_read = 0
 	lines = ""
 	# loop read from stdin until EOF encountered
@@ -44,5 +28,46 @@ def get_input (n_lines):
 
 	return lines
 
+def __associate_pattern (word, regex):
+	association = ''
+	for pattern in regex.split('|'):
+		if '.*' in pattern:
+			literals = pattern.split('.*')
+			try:
+				assert False not in [l in word for l in literals]
+				association = pattern
 
-print(get_input(int(sys.argv[1])))
+			except AssertionError: continue
+		else:
+			if pattern == word:
+				association = pattern 
+
+	return association
+
+def get_matches (student_output, regex):
+	match_data = {}
+	match_objects = re.finditer(
+		regex, 
+		student_output, 
+		re.MULTILINE
+	)
+	matches = 0
+	for match_object in match_objects:
+		matches += 1
+		start, end = match_object.start(), match_object.end()
+		word = match_object.group(0)
+		substring_location = (start, end)
+
+		associated_pattern = __associate_pattern(word, regex)
+
+		match = (associated_pattern,
+			word,
+			substring_location)
+
+		match_data[matches] = match 
+
+	return match_data
+
+student_output = get_input(int(sys.argv[1]))
+match_data = get_matches(student_output, sys.argv[2])
+print(match_data)

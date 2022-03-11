@@ -1,5 +1,5 @@
 
-NOTE:
+NOTE, IN DEV BRANCH WORK ON FOLLOWING:
 * can we manually add "orring" to all regular expressions
 and if not which ones did it change and how. if this is the case
 the element of sequence now exists.
@@ -8,6 +8,7 @@ of ordered literals that we wish to match, literally.
 
 explore merging all student_output lines into one string
 and then enabling multiline flag
+
 
 
 #IMPLEMENTATION ISSUES (PRIORITY)
