@@ -34,7 +34,7 @@ def main (args, debug=False):
 	regex = str(args.regex)
 	student_output = get_input(args, int(args.lines))
 
-	if not debug: rrf.SHOW_DEBUG = False
+	rrf.SHOW_DEBUG = debug
 
 	if not (student_output == [] or student_output == """"""):
 		rrf.__debug('student_output %s' % student_output)
@@ -74,5 +74,5 @@ def main (args, debug=False):
 
 # driver code
 if __name__ == '__main__':
-	main(parse_args(),)
+	main(parse_args(), debug=True)
 

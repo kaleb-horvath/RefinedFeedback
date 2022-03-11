@@ -1,3 +1,13 @@
+
+NOTE:
+* can we manually add "orring" to all regular expressions
+and if not which ones did it change and how. if this is the case
+the element of sequence now exists.
+wed need a regex that splits the regex into a collection 
+of ordered literals that we wish to match, literally.
+can we have a multiline matches flag passed to find-iter?
+
+
 #IMPLEMENTATION ISSUES (PRIORITY)
 [ ]. Implement capability to read test cases from CSV file for ultra convenience in the future
 [ ]. Patterns are matched strictly by line. i.e., if you pass only one
@@ -33,18 +43,6 @@ with '|'.
 	Welcome.*options.*name.*max.*remaining.*lives.*options.*name.*max.*remaining.*options.*name.*max.*remaining.*coins.*options.*Displaying 3.*Enemy Boss.*Bowser.*123.5.*150.0.*82.3.*3.*Enemy.*Goomba.*7.9.*10.0.*78.9.*Human.*Mario.*100.0.*100.0.*100.0.*15.*options.*bye
 
 
-[X]. There is no element of sequence. That is, order does not matter in the patterns to be checked.
-
-	in Dr. Carroll's Project-4 he expects the following pattern to
-	be matched agains student output:
-		'Welcome.*options.*name.*max.*name.*lives'
-	where the string 'Welcome' is expected to appear before 'options',
-	and 'name' is expected to appear twice.
-
-	UPDATE: THIS IS NOT ACTUALLY A PROBLEM AND WORKS JUST FINE
-
-
 #FINAL
-1. merge regexParser/ directory with one on flash-drive
 2. implement CI and testing
 3. setup Makefile and put program and library in default path for easy global access

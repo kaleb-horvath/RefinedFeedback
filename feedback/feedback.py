@@ -30,7 +30,7 @@ def __error (message, exit=0):
 	return
 
 
-def __associate_regex (word, regex):
+def __associate_pattern (word, regex):
 	"""Associate a regular expression with a literal that was
 	definitely found within student_output. Should be called by
 	'get_matches'. For internal use only.
@@ -42,7 +42,7 @@ def __associate_regex (word, regex):
 		where 'm' is some 'sre.SRE_Match object' instance found
 		in the iterator returned by 're.finditer'
 	regex : str
-		the full regex pattern used by 'get_matches'
+		the full regex used by 'get_matches'
 
 	Returns
 	-------
@@ -52,7 +52,7 @@ def __associate_regex (word, regex):
 
 	Usage
 	-----
-	>>> __associate_regex('hello', 'he*.llo|world')
+	>>> __associate_pattern('hello', 'he*.llo|world')
 	'he*.llo'
 
 	NOTE: Only works assuming literals to be matched are seperated
@@ -111,7 +111,7 @@ def get_matches (lines, regex):
 
 		try:
 			# returns iterator containing <_sre.SRE_Match object> references
-			match_objects = re.finditer(regex, line)
+			match_objects = re.finditer(regex, line, re.MULTILINE)
 
 		except sre_constants.error: __error('illegal regular expression pattern given')
 
@@ -124,10 +124,10 @@ def get_matches (lines, regex):
 			word = match_object.group(0)
 			substring_location = (start, end)
 
-			associated_regex = __associate_regex(word, regex)
-			# __debug('associated_regex %s' % associated_regex)
+			associated_pattern = __associate_pattern(word, regex)
+			# __debug('associated_pattern %s' % associated_pattern)
 
-			match = (associated_regex,
+			match = (associated_pattern,
 				word,
 				substring_location,
 				line)
@@ -175,6 +175,7 @@ def generate_match_report (match_data):
 		pattern_lengths.append(line)
 
 	pattern_lengths = [len(l) for i in pattern_lengths for l in i]
+	if pattern_lengths == []: return
 	max_pattern_length = max(pattern_lengths)
 
 	# yield the table annotated view headers
