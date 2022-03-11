@@ -37,6 +37,7 @@ def main (args, debug=False):
 	rrf.SHOW_DEBUG = debug
 
 	if not (student_output == [] or student_output == """"""):
+
 		rrf.__debug('student_output %s' % student_output)
 		rrf.__debug('regex \'%s\'' % regex)
 

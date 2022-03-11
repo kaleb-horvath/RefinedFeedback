@@ -5,7 +5,9 @@ and if not which ones did it change and how. if this is the case
 the element of sequence now exists.
 wed need a regex that splits the regex into a collection 
 of ordered literals that we wish to match, literally.
-can we have a multiline matches flag passed to find-iter?
+
+explore merging all student_output lines into one string
+and then enabling multiline flag
 
 
 #IMPLEMENTATION ISSUES (PRIORITY)
