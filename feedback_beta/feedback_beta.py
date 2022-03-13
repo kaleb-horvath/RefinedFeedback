@@ -2,8 +2,7 @@
 import sys, re
 import sre_constants
 
-"""
-"""
+
 
 def get_input (n_lines):
 	lines_read = 0
