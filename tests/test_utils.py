@@ -49,8 +49,6 @@ class TestGetInput (unittest.TestCase):
 	def test_case_1 (self):
 		"""
 		"""
-		print('\nRunning Test Case 1 for TestGetInput\n')
-
 		# get length of longest student output in lines
 		most_lines = max([
 			len(output.split('\n')) for output in self.student_outputs
